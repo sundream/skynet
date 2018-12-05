@@ -6,6 +6,7 @@ CSERVICE_PATH ?= cservice
 SKYNET_BUILD_PATH ?= .
 
 CFLAGS = -g -O2 -Wall -I$(LUA_INC) $(MYCFLAGS)
+CFLAGS += -pg 	# for gprof
 # CFLAGS += -DUSE_PTHREAD_LOCK
 
 # lua
@@ -64,6 +65,7 @@ LUA_CLIB_SKYNET = \
   lua-mysqlaux.c \
   lua-debugchannel.c \
   lua-datasheet.c \
+  lua-snapshot.c \
   \
 
 SKYNET_SRC = skynet_main.c skynet_handle.c skynet_module.c skynet_mq.c \

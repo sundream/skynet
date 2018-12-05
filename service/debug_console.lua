@@ -164,6 +164,7 @@ function COMMAND.help()
 		call = "call address ...",
 		trace = "trace address [proto] [on|off]",
 		netstat = "netstat : show netstat",
+		snapshot = "snapshot address: make a snapshot",
 	}
 end
 
@@ -425,4 +426,9 @@ function COMMAND.netstat()
 		convert_stat(info)
 	end
 	return stat
+end
+
+function COMMAND.snapshot(address)
+	address = adjust_address(address)
+	return skynet.call(address,"debug","SNAPSHOT")
 end
