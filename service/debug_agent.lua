@@ -7,11 +7,7 @@ local channel
 
 function CMD.start(address, fd)
 	assert(channel == nil, "start more than once")
-	if type(address) == "number" then
-		skynet.error(string.format("Attach to :%08x", address))
-	else
-		skynet.error(string.format("Attach to %s", address))
-	end
+	skynet.error(string.format("Attach to :%08x", address))
 	local handle
 	channel, handle = debugchannel.create()
 	local ok, err = pcall(skynet.call, address, "debug", "REMOTEDEBUG", fd, handle)
