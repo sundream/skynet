@@ -1,4 +1,5 @@
 #include "skynet.h"
+#include "skynet_timer.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,6 +33,9 @@ logger_release(struct logger * inst) {
 
 static int
 logger_cb(struct skynet_context * context, void *ud, int type, int session, uint32_t source, const void * msg, size_t sz) {
+	uint32_t starttime = skynet_starttime();
+	uint64_t currenttime = skynet_now();
+	double now = starttime + currenttime/100;
 	struct logger * inst = ud;
 	switch (type) {
 	case PTYPE_SYSTEM:
@@ -40,7 +44,7 @@ logger_cb(struct skynet_context * context, void *ud, int type, int session, uint
 		}
 		break;
 	case PTYPE_TEXT:
-		fprintf(inst->handle, "[:%08x] ",source);
+		fprintf(inst->handle, "@%.3f [:%08x] ",now,source);
 		fwrite(msg, sz , 1, inst->handle);
 		fprintf(inst->handle, "\n");
 		fflush(inst->handle);
